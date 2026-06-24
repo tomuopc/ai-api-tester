@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI API Tester</title>
+  <meta name="description" content="A compact browser-based tool for testing OpenAI-compatible AI API calls, saving presets, and viewing responses or errors without DevTools." />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <main class="shell">
+    <section class="hero compact-hero" aria-labelledby="page-title">
+      <div>
+        <h1 id="page-title">AI API Tester</h1>
+      </div>
+      <div class="status-card" aria-live="polite">
+        <span class="pulse" id="statusPulse"></span>
+        <div>
+          <strong id="statusTitle">Idle</strong>
+          <small id="statusText">Ready to test</small>
+        </div>
+      </div>
+    </section>
+
+    <section class="workspace">
+      <form class="panel config-panel" id="apiForm">
+        <div class="panel-heading">
+          <span class="step">01</span>
+          <div>
+            <h2>Config</h2>
+            <p>OpenAI-compatible</p>
+          </div>
+        </div>
+
+        <label>
+          <span>Base URL</span>
+          <input id="baseUrl" type="url" placeholder="https://api.openai.com/v1" required />
+        </label>
+
+        <label>
+          <span>API Key</span>
+          <div class="key-row">
+            <input id="apiKey" type="password" placeholder="sk-..." autocomplete="off" required />
+            <button class="ghost small" type="button" id="toggleKey">Show</button>
+          </div>
+        </label>
+
+        <div class="two-col">
+          <label>
+            <span>Model</span>
+            <input id="model" type="text" placeholder="gpt-4o-mini" required />
+          </label>
+          <label>
+            <span>Temperature</span>
+            <input id="temperature" type="number" min="0" max="2" step="0.1" value="0.7" required />
+          </label>
+        </div>
+
+        <label>
+          <span>Name</span>
+          <input id="configName" type="text" placeholder="Production / Local / Test" />
+        </label>
+
+        <div class="actions">
+          <button type="button" class="primary" id="saveConfig">Save</button>
+          <button type="button" class="ghost" id="clearForm">Reset</button>
+        </div>
+
+      </form>
+
+      <div class="workbench">
+        <section class="panel saved-panel">
+          <div class="panel-heading saved-heading">
+            <span class="step">02</span>
+            <div>
+              <h2>Saved</h2>
+              <p>Load a preset</p>
+            </div>
+            <small class="storage-badge">Local</small>
+          </div>
+          <div class="saved-list" id="savedList"></div>
+        </section>
+
+        <div class="test-row">
+          <section class="panel prompt-panel">
+            <div class="panel-heading">
+              <span class="step">03</span>
+              <div>
+                <h2>Prompt</h2>
+                <p>Send one test call</p>
+              </div>
+            </div>
+            <label class="prompt-box">
+              <textarea id="prompt" placeholder="Ask something, e.g. Explain quantum computing in one sentence." required></textarea>
+              <button class="send" type="submit" form="apiForm" id="sendBtn">Send Test</button>
+            </label>
+          </section>
+
+          <section class="panel result-panel">
+            <div class="panel-heading result-heading">
+              <span class="step">04</span>
+              <div>
+                <h2>Response</h2>
+                <p id="metaInfo">Not sent</p>
+              </div>
+              <button class="ghost small" type="button" id="copyResult">Copy</button>
+            </div>
+
+            <div class="result-box">
+              <div class="result-toolbar">
+                <div>
+                  <span>AI Response</span>
+                  <small>Content</small>
+                </div>
+              </div>
+              <pre id="result">Waiting...</pre>
+              <details>
+                <summary>Raw JSON</summary>
+                <pre id="rawJson">None</pre>
+              </details>
+            </div>
+          </section>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="./app.js"></script>
+</body>
+</html>
